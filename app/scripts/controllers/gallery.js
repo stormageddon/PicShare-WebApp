@@ -8,7 +8,7 @@
  * Controller of the picShareApp
  */
 angular.module('picShareApp')
-  .controller('GalleryController', function ($scope, $routeParams, $window) {
+  .controller('GalleryController', function ($scope, $routeParams, $window, bitly) {
     console.log('cloudmine:', cloudmine);
 
     $scope.appData = {
@@ -19,10 +19,20 @@ angular.module('picShareApp')
 
     $scope.imageid = $routeParams.imageid;
 
+    var fullUrl = $scope.appData.apiroot + "/v1/app/" + $scope.appData.id + "/binary/" + $scope.imageid + "?apikey=" + $scope.appData.apikey
+
     $scope.imageData = {
       id: $routeParams.imageid,
-      url: $scope.appData.apiroot + "/v1/app/" + $scope.appData.id + "/binary/" + $scope.imageid + "?apikey=" + $scope.appData.apikey
+      url: fullUrl
     }
+
+    var shortUrl = fullUrl
+    bitly.getShortUrl(fullUrl).then(function(data) {
+      $scope.imageData.url = data;
+    }, function(err) {
+      console.log("Error generating long url", err);
+    });
+
 
     console.log('url:', $scope.imageData.url);
 

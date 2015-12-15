@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'bitly.generator'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -36,4 +37,9 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }).config(['bitlyProvider', function (bitlyProvider) {
+    bitlyProvider.cfgBitly({
+      login: 'mcaputo425',
+      api: 'R_a1ff5e86067b4a7f8cd9ef21e64cb90d'
+    });
+  }]);
